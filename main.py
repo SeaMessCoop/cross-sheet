@@ -1,14 +1,23 @@
 import csv
+import inspect
 
-filepath = './data/SeattleTo-priceSet.csv'
+def lineno(): #  Function that returns line number in program
+    return inspect.currentframe().f_back.f_lineno
+
+filepath = 'SeattleTo-priceSet.csv'
 with open(filepath) as csvfile:
     rows = csv.reader(csvfile)
     rows = list(rows)
     header = rows[0]
     output_rows = [header]
+    print(lineno(), '\nRows:', rows,
+          lineno(), '\nHeader:', header,
+          lineno(), '\noutput_rows:', output_rows)
     for (rowi, row) in enumerate(rows):
         output_row = []
+        print(lineno(), 'Rows:', rowi, row)
         for (coli, col) in enumerate(header):
+            print(lineno(), 'Columns:', coli, col)
             price1 = row[0]
             price2 = header[coli]
 
@@ -22,8 +31,9 @@ with open(filepath) as csvfile:
             min_price = min(price1, price2)
             max_price = max(price1, price2)
             total = round(max_price + .75 * min_price)
+            print(lineno(), 'Min:', min_price, 'Max:', max_price, 'Total:', total)
             output_row.append(total)
         output_rows.append(output_row)
-    with open('output.csv', 'w') as outfile:
+    with open('outputX.csv', 'w') as outfile:
         writer = csv.writer(outfile)
         writer.writerows(output_rows)
